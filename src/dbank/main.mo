@@ -3,7 +3,7 @@ import Time "mo:base/Time";
 import Float "mo:base/Float"
 
 actor DBank {
-  stable var currentValue: Float = 300;
+  stable var currentValue : Float = 300;
   // value, current time
   stable var startTime = Time.now();
   Debug.print(debug_show (startTime));
@@ -28,6 +28,10 @@ actor DBank {
   public query func checkBalance() : async Float {
     return currentValue;
   };
+  public query func checkBalance2() : async Float {
+    return currentValue;
+  };
+
   public func compound() {
     let currentTime = Time.now();
     let timeElapsedInNanoSeconds = currentTime - startTime;

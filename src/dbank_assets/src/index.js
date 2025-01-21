@@ -1,19 +1,31 @@
+// import { dbank } from "../../declarations/dbank";
 import { dbank } from "../../declarations/dbank";
-
-document.querySelector("form").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const button = e.target.querySelector("button");
-
-  const name = document.getElementById("name").value.toString();
-
-  button.setAttribute("disabled", true);
-
-  // Interact with foo actor, calling the greet method
-  const greeting = await dbank.greet(name);
-
-  button.removeAttribute("disabled");
-
-  document.getElementById("greeting").innerText = greeting;
-
-  return false;
+window.addEventListener("load", async function () {
+  // console.log("I have loaded");
+  const currentAmount = await dbank.checkBalance2();
+  const twoDecimalPlaces = Math.round(currentAmount * 100) / 100;
+  document.getElementById("value").innerText = twoDecimalPlaces;
 });
+
+document
+  .querySelector("form")
+  .addEventListener("submit", async function (event) {
+    event.preventDefault();
+    console.log("I've been pressed");
+    const button = event.target.querySelector("#submit-btn");
+
+    const inputAmount = parseFloat(
+      document.getElementById("input-amount").value
+    );
+    const outputAmount = parseFloat(
+      document.getElementById("withdrawal-amount").value
+    );
+    button.setAttribute("disabled", true);
+
+    await dbank.topUp(inputAmount);
+    const currentAmount = await dbank.checkBalance2();
+
+    const twoDecimalPlaces = Math.round(currentAmount * 100) / 100;
+    document.getElementById("value").innerText = twoDecimalPlaces;
+    button.removeAttribute("disabled");
+  });
